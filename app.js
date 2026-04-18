@@ -1,7 +1,6 @@
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import path from "node:path";
 import express from "express";
+import { populateDB } from "./src/model/populateDb.js";
 const __dirname = import.meta.dirname;
 
 //routes
@@ -15,6 +14,7 @@ const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
 
+await populateDB();
 app.use("/", indexRouter);
 
 app.listen(3000, (err) => {
