@@ -1,4 +1,4 @@
-import { getGame, updateGame } from "../model/queries.js";
+import { getGame, updateGame, deleteGame } from "../model/queries.js";
 import { Game } from "../model/gameClass.js";
 
 export const getGameController = async (req, res) => {
@@ -20,4 +20,9 @@ export const postGameController = async (req, res) => {
   });
   await updateGame(game);
   res.redirect(`/games/${game.id}`);
+};
+
+export const deleteGameController = async (req, res) => {
+  await deleteGame(req.params.id);
+  res.redirect("/");
 };
