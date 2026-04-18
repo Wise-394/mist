@@ -9,10 +9,10 @@ export const initialGenre = [
 
 export const dota2 = new Game({
   title: "Dota 2",
-  developer: "valve",
-  price: "0",
-  stock: "99",
-  cover_image: "test",
+  developer: "Valve",
+  price: 0,
+  stock: 99,
+  cover_image: null,
   genres: ["MOBA", "Action"],
 });
 

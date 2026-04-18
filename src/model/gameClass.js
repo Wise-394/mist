@@ -1,5 +1,14 @@
 export class Game {
-  constructor({ title, developer, price, stock, cover_image, genres }) {
+  constructor({
+    id = null,
+    title,
+    developer,
+    price,
+    stock,
+    cover_image,
+    genres,
+  }) {
+    this.id = id;
     this.title = title;
     this.developer = developer;
     this.price = price;
