@@ -5,6 +5,7 @@ const __dirname = import.meta.dirname;
 
 //routes
 import indexRouter from "./src/routes/indexRouter.js";
+import gameRouter from "./src/routes/gameRouter.js";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 await populateDB();
 app.use("/", indexRouter);
+app.use("/game", gameRouter);
 
 app.listen(3000, (err) => {
   if (err) {
