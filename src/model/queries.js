@@ -52,7 +52,7 @@ export const getGames = async (genre = null) => {
       LEFT JOIN game_genres ON games.id = game_genres.game_id
       LEFT JOIN genres ON game_genres.genre_id = genres.id
       GROUP BY games.id
-      HAVING $1::text IS NULL OR bool_or(genres.genre = $1)`,
+      HAVING $1::text IS NULL OR bool_or(genres.genre ILIKE $1)`,
       [genre],
     );
     return rows;

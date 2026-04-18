@@ -3,5 +3,9 @@
     <title>Homepage</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body></body>
+  <body>
+   <% for (const game of games) { %>
+  <p><%= game.title %></p>
+<% } %>
+  </body>
 </html>
