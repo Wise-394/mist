@@ -367,6 +367,81 @@ header {
   font-size: 0.85rem;
 }
 
+.game-delete-dialog {
+  margin: auto;
+  width: 90%;
+  max-width: 380px;
+  border: 1px solid var(--bg-secondary);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border-radius: 4px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.game-delete-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+.game-delete-dialog h2 {
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.game-delete-dialog p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.game-delete-dialog div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.game-delete-dialog label {
+  font-size: 0.75rem;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.game-delete-dialog input[type='password'] {
+  background: #233c51;
+  border: 1px solid #000;
+  border-radius: 2px;
+  padding: 0.6rem;
+  color: #fff;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.game-delete-dialog input[type='password']:focus {
+  outline: 1px solid var(--accent-primary);
+  background: #2a475e;
+}
+
+.delete-dialog-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.delete-btn {
+  background: linear-gradient(to right, #c0392b, #922b21);
+  color: var(--text-bright);
+  padding: 0.45rem 1rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+  filter: brightness(1.15);
+}
+
 @media (max-width: 900px) {
   .game-detail {
     grid-template-columns: 1fr;

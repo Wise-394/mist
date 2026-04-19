@@ -30,6 +30,12 @@ export const postGameController = async (req, res) => {
 };
 
 export const deleteGameController = async (req, res) => {
+  const password = process.env.PASSWORD;
+
+  if (password !== req.body.password) {
+    return res.status(401).json({ error: 'Incorrect password' });
+  }
+
   await deleteGame(req.params.id);
-  res.redirect('/');
+  res.sendStatus(200);
 };
