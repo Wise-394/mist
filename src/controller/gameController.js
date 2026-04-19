@@ -12,19 +12,56 @@ const validateGame = [
     .trim()
     .notEmpty()
     .withMessage('Title is required')
-    .isLength({ max: 50 })
-    .withMessage('Title must be under 50 characters'),
-  body('developer').trim().notEmpty().withMessage('Developer is required'),
+    .isLength({ min: 2, max: 75 })
+    .withMessage('Title must be between 2 and 100 characters')
+    .escape(),
+
+  body('developer')
+    .trim()
+    .notEmpty()
+    .withMessage('Developer is required')
+    .isLength({ max: 75 })
+    .withMessage('Developer name too long')
+    .escape(),
+
   body('price')
-    .isFloat({ min: 0 })
-    .withMessage('Price must be a valid positive number'),
+    .trim()
+    .notEmpty()
+    .withMessage('Price is required')
+    .isFloat({ min: 0, max: 9999.99 })
+    .withMessage('Price must be between $0 and $9,999.99')
+    .custom((value) => /^\d+(\.\d{1,2})?$/.test(value))
+    .withMessage('Price has too many decimal places'),
+
   body('stock')
-    .isInt({ min: 0 })
-    .withMessage('Stock cannot be a negative number'),
+    .trim()
+    .notEmpty()
+    .withMessage('Stock is required')
+    .isInt({ min: 0, max: 999999 })
+    .withMessage('Stock must be a whole number between 0 and 999999'),
+
   body('genres')
-    .toArray()
-    .isLength({ min: 1 })
+    .customSanitizer((value) => {
+      if (!value) return [];
+      return Array.isArray(value) ? value : [value];
+    })
+    .isArray({ min: 1 })
     .withMessage('Please select at least one genre'),
+
+  body('image').custom((value, { req }) => {
+    if (req.method === 'POST' && !req.file) {
+      throw new Error('A cover image is required');
+    }
+
+    if (req.file) {
+      const extension = req.file.mimetype.split('/')[1];
+      const validExtensions = ['jpeg', 'jpg', 'png', 'webp'];
+      if (!validExtensions.includes(extension)) {
+        throw new Error('Invalid image format. Use JPG, PNG, or WebP');
+      }
+    }
+    return true;
+  }),
 ];
 
 export const getGameController = async (req, res, next) => {
