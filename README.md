@@ -72,6 +72,7 @@ npm run dev
 ---
 
 ## ⚠️ Disclaimer
+> **Note:** The database seed script populates games with titles, prices, and stock data only. Game images are **not** included in the auto-population. As a result, game images will not appear for seeded entries. This is intentional to save resources, images were omitted from the seed data since the original purpose of auto-seeding was for deployment. However, as this is only a learning project, the decision to deploy was reconsidered due to cost. You can still manually add image by editing each game through the UI after seeding.
 
 This is a personal learning project built as part of [The Odin Project](https://www.theodinproject.com/) curriculum.
 It is intended for educational and portfolio purposes only. The design and concept are inspired by [Steam](https://store.steampowered.com/) 
