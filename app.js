@@ -15,8 +15,13 @@ app.set("view engine", "ejs");
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
-
 await populateDB();
+
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
+
 app.use("/", indexRouter);
 app.use("/game", gameRouter);
 app.use("/genre", genreRouter);

@@ -1,5 +1,17 @@
 import { pool } from "./pool.js";
-import { initialGenre, dota2, csgo, sts } from "./initialData.js";
+import {
+  initialGenre,
+  dota2,
+  csgo,
+  sts,
+  leagueOfLegends,
+  valorant,
+  tf2,
+  hades,
+  deadCells,
+  enterTheGungeon,
+  apexLegends,
+} from "./initialData.js";
 import { insertGame, insertGenre } from "./queries.js";
 const client = await pool.connect();
 
@@ -81,6 +93,13 @@ const populateGames = async () => {
     await insertGame(dota2);
     await insertGame(csgo);
     await insertGame(sts);
+    await insertGame(leagueOfLegends);
+    await insertGame(valorant);
+    await insertGame(tf2);
+    await insertGame(hades);
+    await insertGame(deadCells);
+    await insertGame(enterTheGungeon);
+    await insertGame(apexLegends);
   } catch (err) {
     console.log("failed to populate games, populateDb.js,", err);
   }

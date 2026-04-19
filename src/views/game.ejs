@@ -1,9 +1,33 @@
 <html>
   <head>
-    <title>Homepage</title>
+    <title><%= game.title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <p><%= game.title %></p>
+    <%- include('components/header.ejs') %>
+    <main>
+      <div class="game-detail">
+        <div class="game-cover">
+          <% if (game.cover_image) { %>
+          <img src="/image/<%= game.id %>" alt="<%= game.title %>" />
+          <% } %>
+        </div>
+        <div class="game-info">
+          <h1 class="game-title"><%= game.title %></h1>
+          <p class="game-developer"><%= game.developer %></p>
+          <div class="game-genres">
+            <% game.genres.forEach(genre => { %>
+            <span class="genre-tag"><%= genre %></span>
+            <% }) %>
+          </div>
+          <div class="game-purchase">
+            <span class="game-price">$<%= game.price %></span>
+            <button class="card-btn">update</button>
+          </div>
+          <p class="game-stock"><%= game.stock %> in stock</p>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

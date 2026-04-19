@@ -1,4 +1,4 @@
-import { pool } from "./pool.js";
+import { pool } from './pool.js';
 
 // ============================================================
 // connection
@@ -7,10 +7,10 @@ import { pool } from "./pool.js";
 // checks if the database connection is working
 export const checkConnection = async () => {
   try {
-    const { rows } = await pool.query("SELECT NOW()");
-    console.log("Connection is working", rows[0].now);
+    const { rows } = await pool.query('SELECT NOW()');
+    console.log('Connection is working', rows[0].now);
   } catch (err) {
-    console.log("cant connect to db, queries.js,", err);
+    console.log('cant connect to db, queries.js,', err);
   }
 };
 
@@ -23,7 +23,7 @@ export const insertGame = async (game) => {
     const game_id = await insertGameToGameDb(game);
     await insertGameToGameGenreDb(game_id, game.genres);
   } catch (err) {
-    console.log("failed to insert game, queries.js,", err);
+    console.log('failed to insert game, queries.js,', err);
   }
 };
 
@@ -40,7 +40,7 @@ export const getGame = async (id) => {
     );
     return rows[0];
   } catch (err) {
-    console.log("failed to get game, queries.js,", err);
+    console.log('failed to get game, queries.js,', err);
   }
 };
 
@@ -57,7 +57,7 @@ export const getGames = async (genre = null) => {
     );
     return rows;
   } catch (err) {
-    console.log("failed to get games, queries.js,", err);
+    console.log('failed to get games, queries.js,', err);
   }
 };
 
@@ -85,7 +85,7 @@ export const updateGame = async (game) => {
       );
     }
   } catch (err) {
-    console.log("failed to update game, queries.js,", err);
+    console.log('failed to update game, queries.js,', err);
   }
 };
 
@@ -93,7 +93,7 @@ export const deleteGame = async (id) => {
   try {
     await pool.query(`DELETE FROM games WHERE id = $1`, [id]);
   } catch (err) {
-    console.log("failed to delete game, queries.js,", err);
+    console.log('failed to delete game, queries.js,', err);
   }
 };
 
@@ -105,7 +105,7 @@ export const insertGenre = async (genre) => {
   try {
     await pool.query(`INSERT INTO genres (genre) VALUES ($1)`, [genre]);
   } catch (err) {
-    console.log("failed to insert into genre, queries.js,", err);
+    console.log('failed to insert into genre, queries.js,', err);
   }
 };
 
@@ -117,7 +117,7 @@ export const getGenre = async (id) => {
     );
     return rows[0];
   } catch (err) {
-    console.log("failed to get genre, queries.js,", err);
+    console.log('failed to get genre, queries.js,', err);
   }
 };
 export const getGenres = async () => {
@@ -125,14 +125,14 @@ export const getGenres = async () => {
     const { rows } = await pool.query(`SELECT genre FROM genres`);
     return rows;
   } catch (err) {
-    console.log("failed to get genre, queries.js,", err);
+    console.log('failed to get genre, queries.js,', err);
   }
 };
 export const updateGenre = async (id, genre) => {
   try {
     await pool.query(`UPDATE genres SET genre = $1 WHERE id = $2`, [genre, id]);
   } catch (err) {
-    console.log("failed to update genre, queries.js,", err);
+    console.log('failed to update genre, queries.js,', err);
   }
 };
 
@@ -140,7 +140,7 @@ export const deleteGenre = async (id) => {
   try {
     await pool.query(`DELETE FROM genres WHERE id = $1`, [id]);
   } catch (err) {
-    console.log("failed to delete genre, queries.js,", err);
+    console.log('failed to delete genre, queries.js,', err);
   }
 };
 
@@ -158,7 +158,7 @@ const insertGameToGameDb = async (game) => {
     );
     return rows[0].id;
   } catch (err) {
-    console.log("failed to insert game to games table, queries.js,", err);
+    console.log('failed to insert game to games table, queries.js,', err);
   }
 };
 
@@ -173,7 +173,7 @@ const insertGameToGameGenreDb = async (game_id, genres) => {
       );
     }
   } catch (err) {
-    console.log("failed to insert into game_genres, queries.js,", err);
+    console.log('failed to insert into game_genres, queries.js,', err);
   }
 };
 
@@ -186,6 +186,6 @@ const getGenreID = async (genre) => {
     );
     return rows[0].id;
   } catch (err) {
-    console.log("cant get genre id, queries.js,", err);
+    console.log('cant get genre id, queries.js,', err);
   }
 };
