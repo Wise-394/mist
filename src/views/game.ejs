@@ -1,26 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title><%= game.title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <%- include('components/header.ejs') %>
+
     <main>
-      <div class="game-detail">
+      <section class="game-detail">
         <div class="game-cover">
           <% if (game.cover_image) { %>
-          <img src="/image/<%= game.id %>" alt="<%= game.title %>" />
+            <img src="/image/<%= game.id %>" alt="<%= game.title %>" />
           <% } %>
         </div>
+
         <div class="game-info">
           <h1 class="game-title"><%= game.title %></h1>
           <p class="game-developer"><%= game.developer %></p>
+          
           <div class="game-genres">
             <% game.genres.forEach(genre => { %>
-            <span class="genre-tag"><%= genre %></span>
+              <span class="genre-tag"><%= genre %></span>
             <% }) %>
           </div>
+
           <div class="game-purchase">
             <span class="game-price">$<%= game.price %></span>
             <button class="card-btn" id="openUpdateDialog">Update</button>
@@ -28,60 +34,74 @@
           </div>
           <p class="game-stock"><%= game.stock %> in stock</p>
         </div>
-      </div>
+      </section>
     </main>
 
-    <dialog id="updateGameDialog" class="modal" <%= locals.errors ? 'open' : '' %>>
+    <% const hasErrors = locals.errors && errors.length > 0; %>
+    <dialog id="updateGameDialog" class="modal" data-has-errors="<%= hasErrors %>">
       <div class="modal-content">
         <h2>Update Game</h2>
         
-        <% if (locals.errors) { %>
-          <div class="error-container" style="background: #fee; border: 1px solid red; padding: 10px; margin-bottom: 15px;">
-            <ul style="color: red; margin: 0;">
-              <% errors.forEach(error => { %>
-                <li><strong><%= error.path %>:</strong> <%= error.msg %></li>
-              <% }) %>
-            </ul>
+        <% if (hasErrors) { %>
+          <div class="error-summary">
+            <p>Please fix the errors highlighted below.</p>
           </div>
         <% } %>
 
         <form method="post" action="/game/<%= game.id %>" enctype="multipart/form-data">
-          <div class="form-group">
+          <% const getErr = (path) => locals.errors ? errors.find(e => e.path === path) : null; %>
+
+          <div class="form-group <%= getErr('title') ? 'form-error' : '' %>">
             <label for="title">Game Title</label>
-            <input type="text" name="title" id="title" required value="<%= game.title %>" />
+            <input type="text" name="title" id="title" value="<%= game.title %>" />
+            <% if (getErr('title')) { %>
+              <span class="error-message"><%= getErr('title').msg %></span>
+            <% } %>
           </div>
 
-          <div class="form-group">
+          <div class="form-group <%= getErr('developer') ? 'form-error' : '' %>">
             <label for="developer">Developer</label>
-            <input type="text" name="developer" id="developer" required value="<%= game.developer %>" />
+            <input type="text" name="developer" id="developer" value="<%= game.developer %>" />
+            <% if (getErr('developer')) { %>
+              <span class="error-message"><%= getErr('developer').msg %></span>
+            <% } %>
           </div>
 
-          <div class="form-group">
+          <div class="form-group <%= getErr('price') ? 'form-error' : '' %>">
             <label for="price">Price ($)</label>
-            <input type="number" step="0.01" name="price" id="price" required value="<%= game.price %>" />
+            <input type="number" step="0.01" name="price" id="price" value="<%= game.price %>" />
+            <% if (getErr('price')) { %>
+              <span class="error-message"><%= getErr('price').msg %></span>
+            <% } %>
           </div>
 
-          <div class="form-group">
+          <div class="form-group <%= getErr('stock') ? 'form-error' : '' %>">
             <label for="stock">Stock Quantity</label>
-            <input type="number" name="stock" id="stock" required value="<%= game.stock %>" />
+            <input type="number" name="stock" id="stock" value="<%= game.stock %>" />
+            <% if (getErr('stock')) { %>
+              <span class="error-message"><%= getErr('stock').msg %></span>
+            <% } %>
           </div>
 
-          <div class="form-group">
-            <label>Genre</label>
+          <div class="form-group <%= getErr('genres') ? 'form-error' : '' %>">
+            <label>Genres</label>
             <div class="genre-dialog">
               <% for (const genre of genres) { %>
-              <div>
-                <input 
-                  type="checkbox" 
-                  name="genres[]" 
-                  id="dialog-<%= genre.genre %>" 
-                  value="<%= genre.genre %>" 
-                  <%= (game.genres && game.genres.includes(genre.genre)) ? 'checked' : '' %> 
-                />
-                <label for="dialog-<%= genre.genre %>"><%= genre.genre %></label>
-              </div>
+                <div class="genre-option">
+                  <input 
+                    type="checkbox" 
+                    name="genres[]" 
+                    id="dialog-<%= genre.genre %>" 
+                    value="<%= genre.genre %>" 
+                    <%= (game.genres && game.genres.includes(genre.genre)) ? 'checked' : '' %> 
+                  />
+                  <label for="dialog-<%= genre.genre %>"><%= genre.genre %></label>
+                </div>
               <% } %>
             </div>
+            <% if (getErr('genres')) { %>
+              <span class="error-message"><%= getErr('genres').msg %></span>
+            <% } %>
           </div>
 
           <div class="form-group">
@@ -98,13 +118,17 @@
     </dialog>
 
     <dialog id="deleteGameDialog" class="game-delete-dialog">
-      <div>
-        <p>Are you sure?</p>
+      <div class="modal-content">
+        <p><strong>Are you sure?</strong></p>
         <p>This action cannot be undone.</p>
-        <label for="game-password">Enter Password:</label>
-        <input type="password" name="password" id="game-password" />
+        
+        <div class="form-group">
+          <label for="game-password">Enter Admin Password:</label>
+          <input type="password" name="password" id="game-password" />
+        </div>
+
         <div class="delete-dialog-actions">
-          <button class="delete-btn" id="confirmDeleteBtn">Delete</button>
+          <button class="delete-btn" id="confirmDeleteBtn">Confirm Delete</button>
           <button id="closeGameDeleteDialog" class="btn-cancel">Cancel</button>
         </div>
       </div>

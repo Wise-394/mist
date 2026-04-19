@@ -16,12 +16,20 @@ const updateGameDialog = document.querySelector('#updateGameDialog');
 const closeUpdateGameBtn = document.querySelector('#closeUpdateDialog');
 
 if (updateGameBtn) {
-  updateGameBtn.addEventListener('click', () => updateGameDialog.showModal());
-}
-if (closeUpdateGameBtn) {
-  closeUpdateGameBtn.addEventListener('click', () => updateGameDialog.close());
+  updateGameBtn.addEventListener('click', () => {
+    updateGameDialog.showModal();
+  });
 }
 
+if (closeUpdateGameBtn) {
+  closeUpdateGameBtn.addEventListener('click', () => {
+    updateGameDialog.close();
+  });
+}
+
+if (updateGameDialog && updateGameDialog.dataset.hasErrors === 'true') {
+  updateGameDialog.showModal();
+}
 // --- Delete Game Dialog ---
 const deleteGameBtn = document.querySelector('#openGameDeleteDialog');
 const deleteGameDialog = document.querySelector('#deleteGameDialog');
