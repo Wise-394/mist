@@ -9,16 +9,59 @@
     <main>
       <header>
         <h1>Genres</h1>
-        <button class ="add-btn">Add Genre</button>
+        <button class="add-btn" id="openAddGenreDialog">Add Genre</button>
       </header>
-      
       <div class="genres-grid">
         <% for (const genre of genres) { %>
-        <a href="/?genre=<%= genre.genre %>" class="genre-card">
-          <span class="genre-name"><%= genre.genre %></span>
-        </a>
+        <div class="genre-card-wrapper">
+          <a href="/?genre=<%= genre.genre %>" class="genre-card">
+            <span class="genre-name"><%= genre.genre %></span>
+          </a>
+          <button class="delete-genre-btn" data-id="<%= genre.id %>">✕</button>
+        </div>
         <% } %>
       </div>
     </main>
+
+    <dialog id="addGenreDialog" class="modal">
+      <div class="modal-content">
+        <h2>Add Genre</h2>
+        <p class="modal-desc">Add a new genre to the list.</p>
+        <form method="post" action="/genre" novalidate>
+          <div class="form-group">
+            <label for="genre">Genre Name</label>
+            <input type="text" name="genre" id="genre" required />
+          </div>
+          <ul id="genreErrors">
+            <% errors.forEach(error => { %>
+            <li><%= error.msg %></li>
+            <% }) %>
+          </ul>
+          <div class="form-actions">
+            <button type="submit" class="card-btn">Add Genre</button>
+            <button type="button" id="closeAddGenreDialog" class="btn-cancel">
+              Cancel
+            </button>
+          </div>
+          <% if (locals.errors && errors.length > 0) { %>
+          <% } %>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="deleteGenreDialog" class="game-delete-dialog">
+      <div>
+        <p>Are you sure?</p>
+        <p>This action cannot be undone.</p>
+        <label for="genre-password">Enter Password:</label>
+        <input type="password" id="genre-password" />
+        <div class="delete-dialog-actions">
+          <button class="delete-btn" id="confirmDeleteGenreBtn">Delete</button>
+          <button class="btn-cancel" id="closeDeleteGenreDialog">Cancel</button>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="/script.js"></script>
   </body>
 </html>

@@ -176,33 +176,80 @@ header {
   margin-top: 1.5rem;
 }
 
+.genre-card-wrapper {
+  position: relative;
+}
+
 .genre-card {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)), var(--grad-highlight);
+  background: linear-gradient(135deg, #1b2838 0%, #2a475e 60%, #1b2838 100%);
   border-radius: 4px;
   padding: 2rem 1rem;
   text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid #2a475e;
+  position: relative;
+  overflow: hidden;
+}
+
+.genre-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .genre-card:hover {
-  transform: scale(1.02);
-  filter: brightness(1.2);
-  box-shadow: 0 0 10px var(--accent-primary);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 12px rgba(102, 192, 244, 0.2);
+  background: linear-gradient(135deg, #1e3247 0%, #2f5372 60%, #1e3247 100%);
+}
+
+.genre-card:hover::before {
+  opacity: 1;
 }
 
 .genre-name {
   color: var(--text-bright);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+.delete-genre-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(192, 57, 43, 0.85);
+  color: var(--text-bright);
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+  line-height: 1;
+}
+
+.genre-card-wrapper:hover .delete-genre-btn {
+  opacity: 1;
+}
+
+.delete-genre-btn:hover {
+  background: rgba(192, 57, 43, 1);
 }
 
 /* Modal / Dialog */
@@ -283,26 +330,6 @@ header {
   padding: 0.45rem 1rem;
   border-radius: 3px;
   font-size: 0.8rem;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 900px) {
-  .games-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .genres-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-  main {
-    padding: 2rem 1rem;
-  }
-  genre-card {
-    padding: 1.5rem 0.5rem;
-  }
-  .genre-name {
-    font-size: 0.85rem;
-  }
 }
 
 /* Game Detail */
@@ -442,11 +469,31 @@ header {
   filter: brightness(1.15);
 }
 
+/* Mobile Responsiveness */
 @media (max-width: 900px) {
+  main {
+    padding: 2rem 1rem;
+  }
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .genres-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .genre-card {
+    padding: 1.5rem 0.5rem;
+  }
+  .genre-name {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .delete-genre-btn {
+    opacity: 1;
+  }
   .game-detail {
     grid-template-columns: 1fr;
   }
-
   .game-cover {
     max-width: 300px;
   }

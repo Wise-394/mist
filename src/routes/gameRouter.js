@@ -6,12 +6,14 @@ import {
   postGameController,
 } from '../controller/gameController.js';
 
-const upload = multer({ storage: multer.memoryStorage() });
+const router = Router();
 
-const gameRouter = Router();
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
 
-gameRouter.get('/:id', getGameController);
-gameRouter.post('/:id', upload.single('image'), postGameController);
-gameRouter.delete('/:id', deleteGameController);
+router.get('/:id', getGameController);
+router.post('/:id', upload.single('image'), postGameController);
+router.delete('/:id', deleteGameController);
 
-export default gameRouter;
+export default router;

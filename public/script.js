@@ -53,3 +53,60 @@ if (confirmDeleteBtn) {
     }
   });
 }
+
+// --- Add Genre Dialog ---
+const addGenreBtn = document.querySelector('#openAddGenreDialog');
+const addGenreDialog = document.querySelector('#addGenreDialog');
+const closeAddGenreBtn = document.querySelector('#closeAddGenreDialog');
+const hasGenreErrors = document.querySelector('#genreErrors');
+if (addGenreBtn) {
+  addGenreBtn.addEventListener('click', () => addGenreDialog.showModal());
+}
+if (closeAddGenreBtn) {
+  closeAddGenreBtn.addEventListener('click', () => addGenreDialog.close());
+}
+
+if (hasGenreErrors.length > 0) {
+  document.getElementById('addGenreDialog').showModal();
+}
+
+// --- Delete Genre Dialog ---
+const deleteGenreBtns = document.querySelectorAll('.delete-genre-btn');
+const deleteGenreDialog = document.querySelector('#deleteGenreDialog');
+const closeDeleteGenreDialog = document.querySelector(
+  '#closeDeleteGenreDialog',
+);
+const confirmDeleteGenreBtn = document.querySelector('#confirmDeleteGenreBtn');
+const genrePasswordInput = document.querySelector('#genre-password');
+let selectedGenre = null;
+
+deleteGenreBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    selectedGenre = btn.dataset.id;
+    deleteGenreDialog.showModal();
+  });
+});
+
+if (confirmDeleteGenreBtn) {
+  confirmDeleteGenreBtn.addEventListener('click', async () => {
+    const password = genrePasswordInput.value;
+
+    const res = await fetch(`/genre/${selectedGenre}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+
+    if (res.ok) {
+      window.location.reload();
+    } else {
+      alert('Incorrect password or delete failed.');
+    }
+  });
+}
+
+if (closeDeleteGenreDialog) {
+  closeDeleteGenreDialog.addEventListener('click', () =>
+    deleteGenreDialog.close(),
+  );
+}

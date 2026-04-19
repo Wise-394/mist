@@ -129,7 +129,7 @@ export const getGenre = async (id) => {
 };
 export const getGenres = async () => {
   try {
-    const { rows } = await pool.query(`SELECT genre FROM genres`);
+    const { rows } = await pool.query(`SELECT id, genre FROM genres`);
     return rows;
   } catch (err) {
     console.log('failed to get genre, queries.js,', err);

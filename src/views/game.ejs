@@ -31,42 +31,64 @@
       </div>
     </main>
 
-    <dialog id="updateGameDialog" class="modal">
+    <dialog id="updateGameDialog" class="modal" <%= locals.errors ? 'open' : '' %>>
       <div class="modal-content">
         <h2>Update Game</h2>
-        <p class="modal-desc">Update this game's details.</p>
+        
+        <% if (locals.errors) { %>
+          <div class="error-container" style="background: #fee; border: 1px solid red; padding: 10px; margin-bottom: 15px;">
+            <ul style="color: red; margin: 0;">
+              <% errors.forEach(error => { %>
+                <li><strong><%= error.path %>:</strong> <%= error.msg %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+
         <form method="post" action="/game/<%= game.id %>" enctype="multipart/form-data">
           <div class="form-group">
             <label for="title">Game Title</label>
             <input type="text" name="title" id="title" required value="<%= game.title %>" />
           </div>
+
           <div class="form-group">
             <label for="developer">Developer</label>
             <input type="text" name="developer" id="developer" required value="<%= game.developer %>" />
           </div>
+
           <div class="form-group">
             <label for="price">Price ($)</label>
             <input type="number" step="0.01" name="price" id="price" required value="<%= game.price %>" />
           </div>
+
           <div class="form-group">
             <label for="stock">Stock Quantity</label>
             <input type="number" name="stock" id="stock" required value="<%= game.stock %>" />
           </div>
-          <div class="form-group">
-            <label for="image">Cover Image</label>
-            <input type="file" name="image" accept="image/*" />
-          </div>
+
           <div class="form-group">
             <label>Genre</label>
             <div class="genre-dialog">
               <% for (const genre of genres) { %>
               <div>
-                <input type="checkbox" name="genres[]" id="dialog-<%= genre.genre %>" value="<%= genre.genre %>" <%= game.genres.includes(genre.genre) ? 'checked' : '' %> />
+                <input 
+                  type="checkbox" 
+                  name="genres[]" 
+                  id="dialog-<%= genre.genre %>" 
+                  value="<%= genre.genre %>" 
+                  <%= (game.genres && game.genres.includes(genre.genre)) ? 'checked' : '' %> 
+                />
                 <label for="dialog-<%= genre.genre %>"><%= genre.genre %></label>
               </div>
               <% } %>
             </div>
           </div>
+
+          <div class="form-group">
+            <label for="image">Cover Image</label>
+            <input type="file" name="image" id="image" accept="image/*" />
+          </div>
+
           <div class="form-actions">
             <button type="submit" class="card-btn">Save Changes</button>
             <button type="button" id="closeUpdateDialog" class="btn-cancel">Cancel</button>
