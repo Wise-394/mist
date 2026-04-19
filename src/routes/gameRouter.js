@@ -1,12 +1,15 @@
-import { Router } from "express";
+import { Router } from 'express';
+import multer from 'multer';
 import {
   getGameController,
   postGameController,
-} from "../controller/gameController.js";
+} from '../controller/gameController.js';
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const gameRouter = Router();
 
-gameRouter.get("/:id", getGameController);
-gameRouter.post("/", postGameController);
+gameRouter.get('/:id', getGameController);
+gameRouter.post('/:id', upload.single('image'), postGameController);
 
 export default gameRouter;

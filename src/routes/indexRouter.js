@@ -11,7 +11,7 @@ indexRouter.get('/', getIndexController);
 indexRouter.post('/', postIndexController);
 indexRouter.get('/image/:id', async (req, res) => {
   const game = await getGame(req.params.id);
-  res.set('Content-Type', 'image/png');
+  res.set('Content-Type', game.cover_image_type || 'image/png');
   res.send(game.cover_image);
 });
 

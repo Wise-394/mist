@@ -6,6 +6,7 @@ export class Game {
     price,
     stock,
     cover_image,
+    cover_image_type = null,
     genres,
   }) {
     this.id = id;
@@ -14,6 +15,7 @@ export class Game {
     this.price = price;
     this.stock = stock;
     this.cover_image = cover_image;
+    this.cover_image_type = cover_image_type;
     this.genres = genres;
   }
 }

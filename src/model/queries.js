@@ -60,17 +60,24 @@ export const getGames = async (genre = null) => {
     console.log('failed to get games, queries.js,', err);
   }
 };
-
 export const updateGame = async (game) => {
   try {
     await pool.query(
-      `UPDATE games SET title = $1, developer = $2, price = $3, stock = $4, cover_image = $5 WHERE id = $6`,
+      `UPDATE games SET 
+        title = $1, 
+        developer = $2, 
+        price = $3, 
+        stock = $4, 
+        cover_image = COALESCE($5, cover_image),
+        cover_image_type = COALESCE($6, cover_image_type)
+      WHERE id = $7`,
       [
         game.title,
         game.developer,
         game.price,
         game.stock,
         game.cover_image,
+        game.cover_image_type,
         game.id,
       ],
     );
@@ -152,9 +159,16 @@ export const deleteGenre = async (id) => {
 const insertGameToGameDb = async (game) => {
   try {
     const { rows } = await pool.query(
-      `INSERT INTO games (title, developer, price, stock, cover_image)
-      VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-      [game.title, game.developer, game.price, game.stock, game.cover_image],
+      `INSERT INTO games (title, developer, price, stock, cover_image, cover_image_type)
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+      [
+        game.title,
+        game.developer,
+        game.price,
+        game.stock,
+        game.cover_image,
+        game.cover_image_type,
+      ],
     );
     return rows[0].id;
   } catch (err) {

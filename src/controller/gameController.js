@@ -1,9 +1,15 @@
-import { getGame, updateGame, deleteGame } from "../model/queries.js";
-import { Game } from "../model/gameClass.js";
+import {
+  getGame,
+  updateGame,
+  deleteGame,
+  getGenres,
+} from '../model/queries.js';
+import { Game } from '../model/gameClass.js';
 
 export const getGameController = async (req, res) => {
   const game = await getGame(req.params.id);
-  res.render("game", { game });
+  const genres = await getGenres();
+  res.render('game', { game, genres });
 };
 
 export const postGameController = async (req, res) => {
@@ -13,16 +19,17 @@ export const postGameController = async (req, res) => {
     developer: req.body.developer,
     price: req.body.price,
     stock: req.body.stock,
-    cover_image: null,
+    cover_image: req.file ? req.file.buffer : null,
+    cover_image_type: req.file ? req.file.mimetype : null,
     genres: Array.isArray(req.body.genres)
       ? req.body.genres
       : [req.body.genres],
   });
   await updateGame(game);
-  res.redirect(`/games/${game.id}`);
+  res.redirect(`/game/${req.params.id}`);
 };
 
 export const deleteGameController = async (req, res) => {
   await deleteGame(req.params.id);
-  res.redirect("/");
+  res.redirect('/');
 };
