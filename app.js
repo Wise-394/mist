@@ -26,6 +26,10 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/game', gameRouter);
 app.use('/genre', genreRouter);
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.redirect('/');
+});
 
 const PORT = process.env.PORT || 3000;
 
