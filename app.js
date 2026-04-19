@@ -27,7 +27,9 @@ app.use('/', indexRouter);
 app.use('/game', gameRouter);
 app.use('/genre', genreRouter);
 
-app.listen(3000, (err) => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, (err) => {
   if (err) {
     console.log(err);
   }
