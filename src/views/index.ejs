@@ -137,9 +137,10 @@
       </dialog>
     </main>
 
+    <%- include('components/footer.ejs') %>
+
     <script src="/script.js"></script>
     <script>
-      // Automatically show modal if server-side validation failed
       const gameDialog = document.getElementById('gameDialog');
       if (gameDialog && gameDialog.dataset.hasErrors === 'true') {
         gameDialog.showModal();

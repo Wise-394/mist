@@ -47,21 +47,6 @@ const validateGame = [
     })
     .isArray({ min: 1 })
     .withMessage('Please select at least one genre'),
-
-  body('image').custom((value, { req }) => {
-    if (req.method === 'POST' && !req.file) {
-      throw new Error('A cover image is required');
-    }
-
-    if (req.file) {
-      const extension = req.file.mimetype.split('/')[1];
-      const validExtensions = ['jpeg', 'jpg', 'png', 'webp'];
-      if (!validExtensions.includes(extension)) {
-        throw new Error('Invalid image format. Use JPG, PNG, or WebP');
-      }
-    }
-    return true;
-  }),
 ];
 
 export const getGameController = async (req, res, next) => {

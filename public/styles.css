@@ -79,6 +79,7 @@ a.active {
 /* Main Layout */
 main {
   padding: 3rem 5vw;
+  min-height: 90vh;
 }
 
 header {
@@ -470,6 +471,80 @@ header {
   filter: brightness(1.15);
 }
 
+.steam-footer {
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
+  padding: 3rem 1.5rem;
+  margin-top: auto; /* Pushes footer to bottom if using flex-direction: column on body */
+  font-family: Arial, Helvetica, sans-serif;
+  border-top: 1px solid var(--bg-secondary);
+}
+
+.footer-content {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  margin-bottom: 1.5rem;
+  filter: grayscale(1);
+  opacity: 0.3;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--text-bright);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.github-link:hover {
+  color: var(--accent-primary);
+}
+
+.github-link svg {
+  fill: currentColor;
+}
+
+.footer-divider {
+  border: 0;
+  border-top: 1px solid var(--bg-secondary);
+  margin: 1.5rem 0;
+  opacity: 0.5;
+}
+
+.footer-bottom-links {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-bottom-links a {
+  color: var(--text-main);
+  text-decoration: none;
+  margin: 0 0.3rem;
+  transition: color 0.2s;
+}
+
+/* For small screens */
+@media (max-width: 600px) {
+}
 /* Mobile Responsiveness */
 @media (max-width: 900px) {
   main {
@@ -497,5 +572,10 @@ header {
   }
   .game-cover {
     max-width: 300px;
+  }
+  .footer-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 }
